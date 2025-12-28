@@ -63,7 +63,7 @@ En este esquema a tener en cuenta que nos dan la ruta de internet con máscara /
 
 ![Esquema Level 9](images/level9.png)
 
-En este esquema no hacemos subneting, utilizamos rangos de red diferentes para cada tramo. Como no podemos utilizar redes privadas al ser un esquema sin NAT, pongo rangos parecidos a los de las redes privadas, pero con pequeñas modificaciones, cambio 192.168.3.x, 10.0.0.x por 190.168.3.x, 50.0.0.x y 60.0.0.x para que sean rangos públicos. A tener en cuenta....En R1 tengo que añadir las rutas para llegar a cation y gluon, pero en las rutas de internet no tengo que añadir gluon al no necesitar acceso a internet. En las rutas de internet añado las de cation y meson que son los que necesitan acceso a internet. Esto no puede ser en un entorno real, Internet no tendría rutas específicas a hosts internos.
+En este esquema no hago subneting, utilizo rangos de red diferentes para cada tramo. Como no podemos utilizar redes privadas al ser un esquema sin NAT, pongo rangos parecidos a los de las redes privadas, pero con pequeñas modificaciones, cambio 192.168.3.x, 10.0.0.x por 190.168.3.x, 50.0.0.x y 60.0.0.x para que sean rangos públicos. A tener en cuenta....En R1 tengo que añadir las rutas para llegar a cation y gluon, pero en las rutas de internet no tengo que añadir gluon al no necesitar acceso a internet. En las rutas de internet añado las de cation y meson que son los que necesitan acceso a internet. Esto no puede ser en un entorno real, Internet no tendría rutas específicas a hosts internos.
 
 ## Level 10
 
