@@ -64,7 +64,7 @@ Descripción del ejercicio...
 
 ## Level 9
 
-![Esquema Level 9](images/level10.png)
+![Esquema Level 9](images/level9.png)
 
 ## Level 10
 
