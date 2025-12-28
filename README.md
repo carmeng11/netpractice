@@ -68,4 +68,4 @@ Descripción del ejercicio...
 
 ## Level 10
 
-![Esquema Level 3](images/level10.png)
+![Esquema Level 10](images/level10.png)
