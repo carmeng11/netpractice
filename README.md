@@ -89,4 +89,20 @@ Como no hay NAT , no podemos utilizar redes privadas (10.0.0.0/8, 172.16.0.0/12,
 
 ![Esquema Level 10](images/level10.png)
 
-En este nivel dan muchos valores predeterminados, y sí realizo subneting. Lo más importante a tener en cuenta, en internet solo puedo añadir una ruta, por eso ponemos el rango con el que jugamos 153.223.108.0 con máscara /24 para que alcance todas las subredes. La única dificualtad es tener cuidado con la máscara que utilizamos en el rango de las interfaces R22 y H31, donde no hay nada predeterminado y podemos eligirlo. En los otros tramos si viene predeterminada la máscara, y el /25 de H21 y H11 hace que este segmento ya coja ips hasta la 127. El /26 de R23 y H41 nos ocupan las ips desde el 128 al 191. Si pongo un /28 en R22 y H31 no ontrolo muy bien si hay solapamiento, por eso elijo un /30 y pongo las ips del rango anterior a la red de las interfaces que comunican los routers R1 y R2. Pongo las ips 249 y 250 del tramo anterior al 251-255. Son subredes de 4 ips, y descartando la primera y última, que son utilizadas como ip de red y de broadcast respectivamente, se puede hacer sin mucho cálculo y con subneting este esquema que funciona.
+En este nivel dan muchos valores predeterminados y sí realizo subneting. 
+
+**Restricción clave - Ruta única en Internet:**
+En Internet solo puedo añadir una ruta, por eso uso el rango 153.223.108.0 con máscara /24 para que alcance todas las subredes del esquema.
+
+**Análisis del espacio de direcciones (153.223.108.0/24):**
+Los valores predeterminados ya ocupan gran parte del espacio:
+- /25 (H21-H11): IPs 0-127 (128 direcciones)
+- /26 (R23-H41): IPs 128-191 (64 direcciones)
+- Espacio disponible: 192-255
+
+**Solución para R22-H31:**
+La única dificultad es elegir la máscara para las interfaces R22 y H31, donde no hay valores predeterminados. Si pusiera /28 (16 IPs) no controlo bien si hay solapamiento con el rango 192-255, por eso elijo /30 (4 IPs) que me da mayor control.
+
+Uso las IPs 249 y 250, que están en el rango justo anterior a las IPs 251-254 que son usadas para la comunicación entre routers R1 y R2, con máscara /30, y son predeterminadas. Con /30 tengo subredes de 4 IPs cada una, y descartando la primera (red) y la última (broadcast), puedo asignar las dos del medio sin solapamiento.
+
+Esta solución funciona sin necesidad de cálculos complejos y evita conflictos entre subredes.
