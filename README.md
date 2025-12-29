@@ -45,7 +45,21 @@ En este caso, con /28 la subred donde está la IP de B1 (222) es el rango 208-22
 
 ## Level 3
 
+## Level 3
+
 ![Esquema Level 3](images/level3.png)
+
+Tenemos 3 hosts conectados a un switch. Nos dan la máscara /25 (255.255.255.128) en uno de ellos y la IP en otro (104.198.130.125). 
+
+**Concepto clave - Todos los hosts en un switch deben estar en la misma red.**
+
+Calcular los rangos de las subredes con /25 es sencillo (puedes consultar el [esquema de máscaras y subneting](#máscaras-de-red--subneting) al inicio). La máscara /25 divide el último octeto en 2 subredes:
+- Primera subred: 0-127 
+- Segunda subred: 128-255
+
+Como nos dan la IP 104.198.130.125, estamos en la primera subred (0-127). Para los otros dos hosts debemos elegir IPs también en este rango. Podemos usar la 126 para un host, pero no podemos utilizar la 127 al ser la IP de broadcast de esta subred. Por tanto, para el tercer host elegimos la 124 (anterior a la 125).
+
+En resumen, en esta subred podríamos elegir cualquier IP desde 1 hasta 126 (descartando 0 para red y 127 para broadcast), siempre que no se repitan.
 
 ## Level 4
 
