@@ -124,7 +124,6 @@ La puerta de enlace siempre es la dirección de la interfaz del router al que es
   
   **Consejo práctico:** En casos donde el subneting no se hace en el último octeto, lo más fácil es mantener el mismo valor en ese octeto (39) y en el último usar cualquier IP del rango 1-253 (evitando 254 que ya tiene el router y 255 de broadcast).
 
-## Level 6
 
 ## Level 6
 
