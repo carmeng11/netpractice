@@ -1,6 +1,19 @@
 # netpractice
-   
-   ## Máscaras de Red / Subneting
+
+## Introducción
+
+Este repositorio contiene la resolución práctica de los 10 niveles del proyecto **NetPractice** de 42. Cada nivel introduce conceptos progresivos de redes TCP/IP, desde direccionamiento básico hasta enrutamiento complejo con subneting.
+
+La documentación incluye:
+- **Esquema visual de subneting y máscaras de red** como referencia rápida
+- **Explicación de cada nivel** con enfoque práctico, introduciendo la teoría necesaria y los conceptos clave de cada esquema
+- **Consejos y soluciones** orientados a la resolución eficiente de los ejercicios
+
+El objetivo es comprender no solo cómo completar cada nivel, sino **por qué** funciona cada solución.
+
+---
+
+## Máscaras de Red / Subneting
    
    ![Máscaras de Subneting](images/net3_dark.png)
 
@@ -78,7 +91,6 @@ Podemos usar el rango libre (128-191) con máscara /26. Por ejemplo:
 
 Todas las IPs en esta red deben estar en el mismo rango 128-191 y usar la misma máscara /26.
 
-## Level 5
 
 ## Level 5
 
@@ -100,7 +112,7 @@ La puerta de enlace siempre es la dirección de la interfaz del router al que es
 - **Ruta en MachineA:**
   Podemos especificar la ruta de dos formas:
   - Ruta específica: `130.116.39.0/16 → 83.218.90.126`
-  - Ruta por defecto: `default → 83.218.90.126` (significa: todo lo que no esté en mi red, envíalo por esta puerta de enlace). **Es más práctico usar `default`, ya que es más genérico y evitamos posibles errores al especificar la ruta exacta.**
+  - Ruta por defecto: `default → 83.218.90.126` (significa: todo lo que no esté en mi red, envíalo por esta puerta de enlace). **Es más práctico usar `default ó 0.0.0.0/0` , ya que es más genérico y evitamos posibles errores al especificar la ruta exacta.**
   
   **Interfaz A1**: Máscara /25 e IP del router 126 → Rango 0-127. El host puede usar cualquier IP del rango (por ejemplo, 125).
 
@@ -114,12 +126,78 @@ La puerta de enlace siempre es la dirección de la interfaz del router al que es
 
 ## Level 6
 
+## Level 6
+
 ![Esquema Level 6](images/level6.png)
+
+En este esquema tenemos un host conectado a un switch, a su vez conectado a un router, y este conectado a Internet. Introducimos el concepto de enrutamiento desde Internet hacia redes internas.
+
+**Configuración de rutas:**
+
+- **Ruta en HostA:**
+  No nos dan ningún valor predeterminado. Debemos configurar:
+  - **Destino**: `default` (cualquier red externa)
+  - **Gateway/PE**: Debe ser la IP de la interfaz R1 del router (en el mismo rango que la interfaz A1)
+  
+  También completamos la máscara en A1: /25 (255.255.255.128).
+
+- **Ruta en el Router de Internet:**
+  **Concepto clave - Internet no puede usar rutas `default`:**
+  
+  Aquí **no podemos poner `default` como destino** porque Internet no "sabe" a dónde llegar si no especificamos la red. Debemos indicar explícitamente la red de destino (la red del HostA) con su dirección de red y máscara.
+  
+  HostA tiene máscara /25 y está en el segundo segmento del último octeto (128-255). Técnicamente, la dirección de red específica sería:
+  - `111.124.199.128/25`
+  
+  Sin embargo, **como consejo práctico**, es más seguro especificar todo el rango del tercer octeto con /24 para evitar errores de cálculo:
+  - `111.124.199.0/24` (abarca ambas subredes: 0-127 y 128-255)
+  
+  Esta ruta más amplia funciona perfectamente y se evitan errores.
+
+  **Gateway/PE**: La IP de la interfaz del router que conecta con Internet, que ya viene dada.
 
 ## Level 7
 
 ![Esquema Level 7](images/level7.png)
 
+Tenemos dos hosts conectados a dos routers que están conectados entre sí. Nos dan las IPs de las dos interfaces del router R1.
+
+**Concepto clave - Comunicación entre routers:**
+En este nivel debemos configurar correctamente las rutas para que ambos hosts puedan comunicarse a través de los dos routers intermedios.
+
+**Configuración de Router R1:**
+
+- **Interfaz R11** (conectada a HostA): IP 110.198.14.1
+  - Esta IP es la que debemos usar como **gateway/PE** en la ruta del HostA
+  - **Ruta en HostA**: `default → 110.198.14.1`
+
+- **Interfaz R12** (conectada a R2): IP 110.198.14.254
+  - Para evitar que ambas interfaces estén en la misma red, hacemos **subneting con máscara /25**
+  - Esto crea dos subredes: 0-127 y 128-255
+  - R11 (IP .1) queda en la primera subred (0-127)
+  - R12 (IP .254) queda en la segunda subred (128-255)
+
+- **Ruta en R1**: 
+  - **Destino**: Red de HostB (o `default`)
+  - **Gateway/PE**: 110.198.14.253 (IP de la interfaz R21 del router R2, en el mismo rango 128-255)
+
+**Configuración de Router R2:**
+
+- **Interfaz R21** (conectada a R1): IP 110.198.14.253
+  - Debe ser la IP que pusimos como gateway en la ruta de R1
+  - Máscara /25 para estar en la subred 128-255
+
+- **Interfaz R22** (conectada a HostB): 
+  - **Solución 1 (más fácil)**: Usar una red completamente diferente, por ejemplo 50.0.0.x
+    - No requiere cálculos de subneting
+    - Es la solución mostrada en la captura
+  - **Solución 2 (alternativa)**: Seguir con el mismo rango 110.198.14.x pero con una máscara diferente para mayor segmentación
+
+- **Ruta en R2**: 
+  - **Destino**: Red de HostA (o `default`)
+  - **Gateway/PE**: 110.198.14.254 (IP de la interfaz R12 de R1)
+
+**Consejo práctico:** Usar rangos de red completamente diferentes para cada segmento (como en la solución 1) simplifica el ejercicio y evita errores de cálculo en subneting.
 
 ## Level 8
 
