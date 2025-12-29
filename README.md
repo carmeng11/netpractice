@@ -22,6 +22,10 @@
 
 ![Esquema Level 1](images/level1.png)
 
+Tenemos que poner las IPs de la interfaz D1 y A1, en dos redes diferentes. D1 pertenece a una red con máscara /16 (clase B 255.255.0.0), por lo que solo es necesario que coincidan las Ips de los dos primeros octetos (211.191). En los dos siguientes podemos elegir cualquier valor entre 0-255, descartando el 0 que es el valor de red y el 255, que es el de broadcast. 
+
+En la otra red la máscara es /24 (clase C 255.255.255.0), tienen que coincidir los valores de los 3 primeros octetos (104.95.23) y en el último elegimos cualquier valor entre 0-255 descartando primero y último.
+
 
 ## Level 2
 
@@ -56,14 +60,30 @@ Descripción del ejercicio...
 
 ![Esquema Level 2](images/level8.png)
 
-En este esquema a tener en cuenta que nos dan el destino de la ruta de internet con máscara /26 y en R2 nos dan la PE de la ruta default con una IP de ese mismo rango de red. Hago subneting en dicho rango y es necesario usar máscara /28 para que no haya solapamiento. En la interfaz R13 estamos obligados a poner la IP 161.246.151.62 que es la PE de la ruta del router R2. Aquí la duda puede ser que máscara utilizar. Si pusieramos máscara /26 las IPS de R13 y R21, 62 y 61 estarían en el rango 0-63, habría solapamiento de redes con los valores de las ips de las interfaces R22 y R23, 17 y 1 respectivamente. Por tanto es necesario /28. Con esta máscasra las Ips de R13 y R21, 62 y 61 están en la subred 48-63 y no se produce solapamiento con las otras subredes 0-15 y 16-31.
+
+En este esquema nos dan el destino de la ruta de internet con máscara /26 y en R2 nos dan la puerta de enlace (PE) de la ruta default con una IP de ese mismo rango de red. Hago subneting en dicho rango y es necesario usar máscara /28 para que no haya solapamiento. 
+
+En la interfaz R13 estamos obligados a poner la IP 161.246.151.62 que es la PE de la ruta del router R2. Aquí la duda puede ser qué máscara utilizar. Si pusiéramos máscara /26 (64 IPs, rango 0-63), las IPs de R13 y R21 (62 y 61) estarían en el mismo rango que las interfaces R22 y R23 (17 y 1), produciendo solapamiento de redes. 
+
+Por tanto es necesario /28 (16 IPs por subred). Con esta máscara las IPs de R13 y R21 (62 y 61) están en la subred 48-63 y no se produce solapamiento con las otras subredes: 0-15 y 16-31.
 
 
 ## Level 9
 
 ![Esquema Level 9](images/level9.png)
 
-En este esquema no hago subneting, utilizo rangos de red diferentes para cada tramo. Como no podemos utilizar redes privadas al ser un esquema sin NAT, pongo rangos parecidos a los de las redes privadas, pero con pequeñas modificaciones, cambio 192.168.3.x, 10.0.0.x por 190.168.3.x, 50.0.0.x y 60.0.0.x para que sean rangos públicos. A tener en cuenta....En R1 tengo que añadir las rutas para llegar a cation y gluon, pero en las rutas de internet no tengo que añadir gluon al no necesitar acceso a internet. En las rutas de internet añado las de cation y meson que son los que necesitan acceso a internet. Esto no puede ser en un entorno real, Internet no tendría rutas específicas a hosts internos.
+En este esquema no hago subneting, utilizo rangos de red diferentes para cada tramo. Hay muy pocos valores que nos dan predeterminados, y para mi la dificultad mayor es que esta libertad de elección de rutas me hizo por concepto y por costumbre utilizar redes privadas, cuando no podemos al no ser esquemas con NAT (Network Address Translation, que traduce direcciones privadas a públicas para salir a Internet).
+
+**Punto clave - Redes públicas vs privadas:**
+Como no hay NAT , no podemos utilizar redes privadas (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), ya que Internet no enruta tráfico a estas direcciones. Por tanto, uso rangos públicos similares a los privados:
+- 192.168.3.x → 190.168.3.x
+- 10.0.0.x → 50.0.0.x y 60.0.0.x
+
+**Configuración de rutas:**
+- En R1: Añado rutas para llegar a cation y gluon (ambos hosts internos).
+- En Internet: Solo añado rutas hacia cation y meson, que son los hosts que necesitan acceso a Internet. Gluon no necesita acceso a Internet, por lo que no es necesario que Internet tenga una ruta hacia él.
+
+**Nota importante:** Esto no sería realista en un entorno real, ya que Internet no tendría rutas específicas hacia hosts internos. En la práctica, esto  se resolvería con NAT y redes privadas.
 
 ## Level 10
 
