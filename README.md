@@ -31,7 +31,17 @@ En la otra red la máscara es /24 (clase C 255.255.255.0), tienen que coincidir 
 
 ![Esquema Level 2](images/level2.png)
 
-Descripción del ejercicio...
+En este esquema nos ponen un rango que no podemos usar en una de las redes: 127.0.0.0/8, porque es el rango de loopback (dirección reservada para comunicación interna del propio dispositivo, como 127.0.0.1 "localhost"). Tenemos que borrarlo completamente y elegir otro rango válido, por ejemplo 10.0.0.0.
+
+**Red con máscara /30:**
+La máscara /30 nos la dan predeterminada y no es modificable. Esta máscara divide la red en subredes de solo 4 IPs cada una. En la primera subred (0-3) podemos usar las IPs 1 y 2, descartando la primera (0 - red) y la última (3 - broadcast).
+
+**Red con máscara /28:**
+Tenemos que poner en la interfaz B1 la misma máscara que A1, que es /28 (255.255.255.224). Una máscara /28 crea subredes de 16 IPs cada una. Como calcular el rango exacto no es fácil bajo presión, podemos elegir para A1 la IP anterior o posterior a la de B1 y probar.
+
+En este caso, con /28 la subred donde está la IP de B1 (222) es el rango 208-223. Elegir la IP siguiente (223) nos daría error al ser la dirección de broadcast, por eso elegimos la anterior: 221.
+
+**Consejo práctico:** Si no puedes hacer estos cálculos rápidamente en la evaluación, siempre puedes probar con la IP inmediatamente anterior o posterior. Si una no funciona, la otra debería ser válida, como ocurre en este caso.
 
 ## Level 3
 
