@@ -56,7 +56,7 @@ Descripción del ejercicio...
 
 ![Esquema Level 2](images/level8.png)
 
-En este esquema a tener en cuenta que nos dan la ruta de internet con máscara /26 y tenemos en R2 la ruta default con la PE con una IP de ese mismo rango de red. Por ello decido hacer subneting utilizando dicho rango y es necesario usar máscar /28 para que no haya solapamiento. En la interfaz R13 estamos obligados a poner la IP 161.246.151.62 que es la PE de la ruta del router R2. Si pusieramos máscara /26 habría solapamiento de redes con los valores de las ips de las interfaces R21 y R23 . Por tanto es necesario /28.
+En este esquema a tener en cuenta que nos dan el destino de la ruta de internet con máscara /26 y en R2 nos dan la PE de la ruta default con una IP de ese mismo rango de red. Hago subneting en dicho rango y es necesario usar máscara /28 para que no haya solapamiento. En la interfaz R13 estamos obligados a poner la IP 161.246.151.62 que es la PE de la ruta del router R2. Aquí la duda puede ser que máscara utilizar. Si pusieramos máscara /26 las IPS de R13 y R21, 62 y 61 estarían en el rango 0-63, habría solapamiento de redes con los valores de las ips de las interfaces R22 y R23, 17 y 1 respectivamente. Por tanto es necesario /28. Con esta máscasra las Ips de R13 y R21, 62 y 61 están en la subred 48-63 y no se produce solapamiento con las otras subredes 0-15 y 16-31.
 
 
 ## Level 9
