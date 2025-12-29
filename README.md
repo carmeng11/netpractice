@@ -80,8 +80,37 @@ Todas las IPs en esta red deben estar en el mismo rango 128-191 y usar la misma 
 
 ## Level 5
 
+## Level 5
+
 ![Esquema Level 5](images/level5.png)
 
+En este esquema tenemos dos hosts conectados directamente a dos interfaces de un router.
+
+**Concepto clave - Rutas estáticas:**
+Cada interfaz del router está en un rango de red distinto, y es necesario añadir **rutas estáticas** en cada host para que puedan alcanzar la red del otro lado del router. 
+
+Una ruta tiene dos componentes:
+- **Destino** (izquierda): La red a la que quiero llegar
+- **Puerta de enlace/Gateway** (derecha): La IP del router por el que debo salir
+
+La puerta de enlace siempre es la dirección de la interfaz del router al que estoy conectado, y la IP del host debe estar en ese mismo rango de red.
+
+**Configuración de rutas y redes:**
+
+- **Ruta en MachineA:**
+  Podemos especificar la ruta de dos formas:
+  - Ruta específica: `130.116.39.0/16 → 83.218.90.126`
+  - Ruta por defecto: `default → 83.218.90.126` (significa: todo lo que no esté en mi red, envíalo por esta puerta de enlace). **Es más práctico usar `default`, ya que es más genérico y evitamos posibles errores al especificar la ruta exacta.**
+  
+  **Interfaz A1**: Máscara /25 e IP del router 126 → Rango 0-127. El host puede usar cualquier IP del rango (por ejemplo, 125).
+
+- **Ruta en MachineB:**
+  Tenemos como valor fijo el destino `default`. Debemos añadir la puerta de enlace, que es la IP de la interfaz del router conectada a esta red:
+  - `default → 130.116.39.254`
+  
+  **Interfaz B1**: Máscara /18 e IP del router 130.116.39.254 → El subneting está en el segundo octeto, donde tenemos 4 subredes de 64 valores cada una (0-63, 64-127, 128-191, 192-255). Al tener en el router la IP con valor 39 en el segundo octeto, estamos en el rango 0-63. 
+  
+  **Consejo práctico:** En casos donde el subneting no se hace en el último octeto, lo más fácil es mantener el mismo valor en ese octeto (39) y en el último usar cualquier IP del rango 1-253 (evitando 254 que ya tiene el router y 255 de broadcast).
 
 ## Level 6
 
