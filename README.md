@@ -26,7 +26,6 @@ Tenemos que poner las IPs de la interfaz D1 y A1, en dos redes diferentes. D1 pe
 
 En la otra red la máscara es /24 (clase C 255.255.255.0), tienen que coincidir los valores de los 3 primeros octetos (104.95.23) y en el último elegimos cualquier valor entre 0-255 descartando primero y último.
 
-
 ## Level 2
 
 ![Esquema Level 2](images/level2.png)
@@ -42,8 +41,6 @@ Tenemos que poner en la interfaz B1 la misma máscara que A1, que es /28 (255.25
 En este caso, con /28 la subred donde está la IP de B1 (222) es el rango 208-223. Elegir la IP siguiente (223) nos daría error al ser la dirección de broadcast, por eso elegimos la anterior: 221.
 
 **Consejo práctico:** Si no puedes hacer estos cálculos rápidamente en la evaluación, siempre puedes probar con la IP inmediatamente anterior o posterior. Si una no funciona, la otra debería ser válida, como ocurre en este caso.
-
-## Level 3
 
 ## Level 3
 
@@ -65,6 +62,21 @@ En resumen, en esta subred podríamos elegir cualquier IP desde 1 hasta 126 (des
 
 ![Esquema Level 4](images/level4.png)
 
+Tenemos dos hosts conectados a un switch, y este conectado a un router con 3 interfaces. Nos dan valores predeterminados en dos interfaces del router, y debemos completar la tercera evitando solapamiento de redes.
+
+**Concepto clave - Evitar solapamiento con subneting:**
+Las tres interfaces del router deben estar en redes diferentes. Analizamos qué rangos están ocupados:
+
+- **Interfaz R2**: Máscara /25 e IP terminada en 1 → Ocupa el rango 0-127 (128 IPs)
+- **Interfaz R3**: Máscara /26 e IP 244 → Ocupa el rango 192-255 (64 IPs)
+- **Rango libre**: 128-191
+
+**Solución para R1 y los hosts:**
+Podemos usar el rango libre (128-191) con máscara /26. Por ejemplo:
+- **R1** (interfaz del router): 129
+- **Hosts**: Nos dan la IP 132 para uno. Para el otro host podemos usar 130. Ambos con máscara /26.
+
+Todas las IPs en esta red deben estar en el mismo rango 128-191 y usar la misma máscara /26.
 
 ## Level 5
 
