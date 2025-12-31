@@ -48,10 +48,10 @@ En este esquema nos ponen un rango que no podemos usar en una de las redes: 127.
 **Red con máscara /30:**
 La máscara /30 nos la dan predeterminada y no es modificable. Esta máscara divide la red en subredes de solo 4 IPs cada una. En la primera subred (0-3) podemos usar las IPs 1 y 2, descartando la primera (0 - red) y la última (3 - broadcast).
 
-**Red con máscara /28:**
-Tenemos que poner en la interfaz B1 la misma máscara que A1, que es /28 (255.255.255.224). Una máscara /28 crea subredes de 16 IPs cada una. Como calcular el rango exacto no es fácil bajo presión, podemos elegir para A1 la IP anterior o posterior a la de B1 y probar.
+**Red con máscara /27:**
+Si ponemos en la interfaz B1 la misma máscara que A1, que es /27 (255.255.255.224). Una máscara /27 crea subredes de 32 IPs cada una. Como calcular el rango exacto no es fácil bajo presión, podemos elegir para A1 la IP anterior o posterior a la de B1 y probar.
 
-En este caso, con /28 la subred donde está la IP de B1 (222) es el rango 208-223. Elegir la IP siguiente (223) nos daría error al ser la dirección de broadcast, por eso elegimos la anterior: 221.
+En este caso, con /27 la subred donde está la IP de B1 (222) es el rango 192-223. Elegir la IP siguiente (223) nos daría error al ser la dirección de broadcast, por eso elegimos la anterior: 221.
 
 **Consejo práctico:** Si no puedes hacer estos cálculos rápidamente en la evaluación, siempre puedes probar con la IP inmediatamente anterior o posterior. Si una no funciona, la otra debería ser válida, como ocurre en este caso.
 
